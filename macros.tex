@@ -1,0 +1,322 @@
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[margin=1in]{geometry} % Page Dimensions
+
+\usepackage{cancel}
+\usepackage{enumitem}
+\setlength{\parskip}{\baselineskip}%
+\usepackage[most]{tcolorbox}
+\usepackage{xparse}
+
+% Math
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage[inline]{asymptote}
+\usepackage{xcolor}
+\usepackage{xfrac}
+\usepackage{tikz}
+\usepackage{tkz-euclide}
+
+% Allows for hyperlinking
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=magenta,
+}
+
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{multicol} %begin/end multicols OR twocolumn
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%% MACROS %%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%% ALGEBRA %%%%%%%%%%%%%%%%%%%%%%%%%
+% enclosures
+\newcommand{\pa}[1]{\left(#1\right)} % encloses using stretchable ()
+\newcommand{\sq}[1]{\left[#1\right]} % encloses using stretchable []
+\newcommand{\br}[1]{\left\{#1\right\}} % encloses using stretchable {}
+\newcommand{\abs}[1]{\left|#1\right|} % encloses using stretchable ||
+\newcommand{\floor}[1]{\left\lfloor#1\right\rfloor} % encloses using stretchable floor
+\newcommand{\ceil}[1]{\left\lceil#1\right\rceil} % encloses using stretchable ceiling
+\newcommand{\vc}[1]{\left\langle#1\right\rangle} % encloses using stretchable <>
+
+% enclosed dfrac
+\newcommand{\pfrac}[2]{\pa{\dfrac{#1}{#2}}} % enclosed in ()
+\newcommand{\afrac}[2]{\abs{\dfrac{#1}{#2}}} % enclosed in ||
+
+% enclosed sfrac
+\newcommand{\psfrac}[2]{\pa{\sfrac{#1}{#2}}} % enclosed in ()
+\newcommand{\asfrac}[2]{\abs{\sfrac{#1}{#2}}} % sfrac enclosed in ||
+
+% display matrix
+\newcommand{\mat}[1]{\begin{matrix}#1\end{matrix}} % no delimiters
+\newcommand{\pmat}[1]{\pa{\mat{#1}}} % () as delimiters
+\newcommand{\sqmat}[1]{\sb{\mat{#1}}} % [] as delimiters
+\newcommand{\vmat}[1]{\vc{\mat{#1}}} % <> as delimiters
+
+%inline matrix
+\newcommand{\sm}[1]{\begin{smallmatrix}#1\end{smallmatrix}} % no delimiters 
+\newcommand{\psm}[1]{\pa{\sm{#1}}} % () as delimiters
+\newcommand{\sqsm}[1]{\sb{\sm{#1}}} % [] as delimiters
+\newcommand{\vsm}[1]{\vc{\sm{#1}}} % <> as delimiters
+
+% calculus
+\newcommand{\p}{\partial}
+% usage: \dv[order of derivative]{func at top}{respect to}
+% \dv{x} => d/dx
+% \dv{y}{x} => dy/dx
+% \dv[2]{x} => d^2/dx^2
+% \dv[3]{y}{x} => d^3y/dx^3
+
+\NewDocumentCommand{\dv}{ O{} m g }{
+    \IfNoValueTF{#3}{ % no value of #3
+        \frac{d^{#1}}{d #2^{#1}}
+    }{ % value of #3
+        \frac{d^{#1} #2}{d #3^{#1}}
+    }
+}
+\NewDocumentCommand{\pdv}{ O{} m g }{
+    \IfNoValueTF{#3}{ % no value of #3
+        \frac{\p^{#1}}{\p #2^{#1}}
+    }{ % value of #3
+        \frac{\p^{#1} #2}{\p #3^{#1}}
+    }
+}
+
+% cos + isin
+\DeclareMathOperator{\cis}{cis}
+\newcommand{\inv}{^{-1}}
+\newcommand{\cbrt}[1]{\sqrt[3]{#1}}
+
+%%%%%%%%%%%%%%%%%%%%% NUMBER THEORY %%%%%%%%%%%%%%%%%%%%%%
+% set theory notations
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\QQ}{\mathbb{Q}}
+% usage: \ZZ[optional subscript]
+\NewDocumentCommand{\ZZ}{ O{} }{
+    \mathbb{Z}_{#1}
+}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\FFF}{\mathbb{F}}
+
+\newcommand{\sA}{\mathcal A}
+\newcommand{\sB}{\mathcal B}
+\newcommand{\sC}{\mathcal C}
+\newcommand{\sF}{\mathcal F}
+\newcommand{\sG}{\mathcal G}
+\newcommand{\sH}{\mathcal H}
+\newcommand{\sO}{\mathcal O}
+
+\newcommand{\real}{\mathfrak{Re}}
+\newcommand{\imag}{\mathfrak{Im}}
+
+\newcommand{\true}{\top}
+\newcommand{\false}{\bot}
+\newcommand{\lxor}{\oplus}
+\newcommand{\liff}{\leftrightarrow}
+\newcommand{\lthen}{\rightarrow}
+\newcommand{\opname}{\operatorname}
+\newcommand{\surjto}{\twoheadrightarrow}
+\newcommand{\injto}{\hookrightarrow}
+
+% lcm
+\DeclareMathOperator*{\lcm}{lcm}
+
+%%%%%%%%%%%%%%%%%%%%%%%% GEOMETRY %%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\ray}[1]{\overrightarrow{#1}} 
+\newcommand{\seg}[1]{\overline{#1}}
+\newcommand{\arc}[1]{\wideparen{#1}}
+\newcommand{\dg}{^\circ}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%% COLORS %%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{my-red}{HTML}{FB2B2B}
+\definecolor{my-orange}{HTML}{FD8E3D}
+\definecolor{my-yellow}{HTML}{FEED15}
+\definecolor{my-green}{HTML}{31F312}
+\definecolor{my-teal}{HTML}{1DCA71}
+\definecolor{my-blue}{HTML}{12A1F3}
+\definecolor{my-purple}{HTML}{D3ABFD}
+\definecolor{my-pink}{HTML}{F691ED}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%% Style Definitions %%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%   Colored Boxes   %%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\tcbset{red-labeled/.style={
+    breakable,
+    enhanced,
+    outer arc=0pt,
+    arc=0pt,
+    colframe=my-red,
+    colback=my-red!5,
+    attach title to upper,
+    coltitle=my-red!200,
+  }
+}
+
+\tcbset{orange-labeled/.style={
+    breakable,
+    enhanced,
+    outer arc=0pt,
+    arc=0pt,
+    colframe=my-orange,
+    colback=my-orange!5,
+    attach title to upper,
+    coltitle=my-orange!200,
+    }
+}
+
+\tcbset{yellow-labeled/.style={
+    breakable,
+    enhanced,
+    outer arc=0pt,
+    arc=0pt,
+    colframe=my-yellow,
+    colback=my-yellow!5,
+    attach title to upper,
+    coltitle=my-yellow!200,
+    }
+}
+
+\tcbset{green-labeled/.style={
+    breakable,
+    enhanced,
+    outer arc=0pt,
+    arc=0pt,
+    colframe=my-green,
+    colback=my-green!5,
+    attach title to upper,
+    coltitle=my-green!200,
+    }
+}
+
+\tcbset{teal-labeled/.style={
+    breakable,
+    enhanced,
+    outer arc=0pt,
+    arc=0pt,
+    colframe=my-teal,
+    colback=my-teal!5,
+    attach title to upper,
+    coltitle=my-teal!200,
+    }
+}
+
+\tcbset{blue-labeled/.style={
+    breakable,
+    enhanced,
+    outer arc=0pt,
+    arc=0pt,
+    colframe=my-blue,
+    colback=my-blue!5,
+    attach title to upper,
+    coltitle=my-blue!200,
+    }
+}
+
+\tcbset{purple-labeled/.style={
+    breakable,
+    enhanced,
+    outer arc=0pt,
+    arc=0pt,
+    colframe=my-purple,
+    colback=my-purple!5,
+    attach title to upper,
+    coltitle=my-purple!200,
+    }
+}
+
+\tcbset{pink-labeled/.style={
+    breakable,
+    enhanced,
+    outer arc=0pt,
+    arc=0pt,
+    colframe=my-pink,
+    colback=my-pink!5,
+    attach title to upper,
+    coltitle=my-pink!200,
+    }
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%   Box Definitions %%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\NewTColorBox{red}{o}{
+    red-labeled,
+    IfValueT = {#1}{
+        after title={\medbreak},
+        title=\textbf{{#1}}
+    }
+}
+
+\NewTColorBox{orange}{o}{
+    orange-labeled,
+    IfValueT = {#1}{
+        after title={\medbreak},
+        title=\textbf{{#1}}
+    }
+}
+
+\NewTColorBox{yellow}{o}{
+    yellow-labeled,
+    IfValueT = {#1}{
+        after title={\medbreak},
+        title=\textbf{{#1}}
+    }
+}
+
+\NewTColorBox{green}{o}{
+    green-labeled,
+    IfValueT = {#1}{
+        after title={\medbreak},
+        title=\textbf{{#1}}
+    }
+}
+
+\NewTColorBox{teal}{o}{
+    teal-labeled,
+    IfValueT = {#1}{
+        after title={\medbreak},
+        title=\textbf{{#1}}
+    }
+}
+
+\NewTColorBox{blue}{o}{
+    blue-labeled,
+    IfValueT = {#1}{
+        after title={\medbreak},
+        title=\textbf{{#1}}
+    }
+}
+
+\NewTColorBox{purple}{o}{
+    purple-labeled,
+    IfValueT = {#1}{
+        after title={\medbreak},
+        title=\textbf{{#1}}
+    }
+}
+
+\NewTColorBox{pink}{o}{
+    pink-labeled,
+    IfValueT = {#1}{
+        after title={\medbreak},
+        title=\textbf{{#1}}
+    }
+}
+
